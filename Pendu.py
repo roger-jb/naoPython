@@ -112,7 +112,6 @@ class Pendu:
             self.dire("Il te reste " + str(self.niveau.getNbChance() - self.erreure) + " chance")
             self.epeler_mot()
             self.recuperer_lettre()
-            # ToDo : ajouter le reste du programme
         else:
             self.fin_partie()
 
