@@ -20,7 +20,7 @@ class EcouteModule(ALModule):
         self.precision = 0.3
 
     def onWordRecognized(self, eventName, value, subIdent):
-        """ méthode qui récupère les mots dits et les répète """
+        """ méthode qui récupère les mots dits et lance la méthode callback associée """
         self.stopReco()
         if len(value) > 1 and value[1] > self.precision:  # 0.3 : seuil de 30%
             self.__callback(str(value[0]))
@@ -28,14 +28,26 @@ class EcouteModule(ALModule):
             self.startListening(self.__callback)
 
     def startRecoYN(self, callback):
+        """
+        ecoute avec retour attendu OUI/NON
+        :param callback: méthode traitant le retour
+        """
         vocabulaire = ['oui', 'non']
         EcouteModule.startReco(self, callback, vocabulaire)
 
     def startRecoNiveau(self, callback):
+        """
+        ecoute pour le niveau de difficulté (facile/normal/difficile)
+        :param callback: methode traitant le retour
+        """
         vocabulaire = ["facile", "normal", "difficile"]
         EcouteModule.startReco(self, callback, vocabulaire)
 
     def startRecoLettre(self, callback):
+        """
+        ecoute pour la récupération des lettres
+        :param callback: methode traitant le retour
+        """
         vocabulaire = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
                        "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
                        "ALPHA", "BRAVO", "CHARLIE", "DELTA", "ECHO", "FOXTROT", "GOLF",
@@ -45,6 +57,11 @@ class EcouteModule(ALModule):
         EcouteModule.startReco(self, callback, vocabulaire)
 
     def startReco(self, callback, vocabulaire):
+        """
+
+        :param callback: la méthode traitant le retour
+        :param vocabulaire: la liste des mots attendus
+        """
         print "startReco"
         if self.__sr is not None:
             self.__sr.setVocaulary(vocabulaire, False)
@@ -52,5 +69,8 @@ class EcouteModule(ALModule):
         memory.subscribeToEvent("WordRecognized", "Ecoute", "onWordRecognized")
 
     def stopReco(self):
+        """
+        arrete l'écoute
+        """
         print "stopReco"
         memory.unsubscribeToEvent("WordRecognized", "Ecoute")
