@@ -110,6 +110,8 @@ class Pendu:
             self.quitter()
         else:
             self.dire("chouette, testons tes capacites")
+            self.dire("liste des mots : ")
+            self.dire("ALPHA, BRAVO, CHARLIE, DELTA, EQUO, FOXTROTE, GOLF, HOTEL, INDIA, JULIETTE, KILO, LIMA, MIKE, NOVEMBEURRE, OSCAR, PAPA, QUEBEC, ROMEO, SIERRA, TANGO, UNIFORME, VICTOR, WHISKY, XYLOPHONE, YAOURT, ZOULOU")
             self.choix_niveau()
 
     def choix_niveau(self):

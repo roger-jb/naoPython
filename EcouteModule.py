@@ -21,11 +21,12 @@ class EcouteModule(ALModule):
 
     def onWordRecognized(self, eventName, value, subIdent):
         """ méthode qui récupère les mots dits et lance la méthode callback associée """
+        vocabulaire = self.vocabulaire
         self.stopReco()
         if len(value) > 1 and value[1] > self.precision:  # 0.3 : seuil de 30%
             self.__callback(str(value[0]))
         else:
-            self.startListening(self.__callback)
+            self.startReco(self.__callback, vocabulaire)
 
     def startRecoYN(self, callback):
         """
@@ -50,10 +51,10 @@ class EcouteModule(ALModule):
         """
         vocabulaire = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
                        "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
-                       "ALPHA", "BRAVO", "CHARLIE", "DELTA", "ECHO", "FOXTROT", "GOLF",
-                       "HOTEL", "INDIA", "JULIET", "KILO", "LIMA", "MIKE", "NOVEMBER",
-                       "OSCAR", "PAPA", "QUEBEC", "ROMEO", "SIERRA", "TANGO", "UNIFORM",
-                       "VICTOR", "WHISKY", "XRAY", "YANKEE", "ZOULOU"]
+                       "ALPHA", "BRAVO", "CHARLIE", "DELTA", "EQUO", "FOXTROTE", "GOLF",
+                       "HOTEL", "INDIA", "JULIETTE", "KILO", "LIMA", "MIKE", "NOVEMBEURRE",
+                       "OSCAR", "PAPA", "QUEBEC", "ROMEO", "SIERRA", "TANGO", "UNIFORME",
+                       "VICTOR", "WHISKY", "XYLOPHONE", "YAOURT", "ZOULOU"]
         EcouteModule.startReco(self, callback, vocabulaire)
 
     def startReco(self, callback, vocabulaire):
@@ -62,9 +63,10 @@ class EcouteModule(ALModule):
         :param callback: la méthode traitant le retour
         :param vocabulaire: la liste des mots attendus
         """
+        self.vocabulaire = vocabulaire
         print "startReco"
         if self.__sr is not None:
-            self.__sr.setVocaulary(vocabulaire, False)
+            self.__sr.setVocabulary(vocabulaire, False)
         self.__callback = callback
         memory.subscribeToEvent("WordRecognized", "Ecoute", "onWordRecognized")
 
@@ -73,4 +75,5 @@ class EcouteModule(ALModule):
         arrete l'écoute
         """
         print "stopReco"
+        self.vocabulaire = None
         memory.unsubscribeToEvent("WordRecognized", "Ecoute")
