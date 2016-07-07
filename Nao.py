@@ -11,4 +11,4 @@ class Nao:
             self.port = 9559
         else:
             self.ip = "127.0.0.1"
-            self.port = 44338
+            self.port = 28449
